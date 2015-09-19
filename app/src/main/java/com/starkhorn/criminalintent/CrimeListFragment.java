@@ -8,7 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -43,12 +46,25 @@ public class CrimeListFragment extends Fragment {
 
     private class CrimeHolder extends RecyclerView.ViewHolder {
 
-        public TextView titleTextView;
+        private TextView titleTextView;
+        private TextView dateTextView;
+        private CheckBox solvedCheckBox;
+        private Crime crime;
 
         public CrimeHolder(View itemView) {
             super(itemView);
 
-            titleTextView = (TextView) itemView;
+            titleTextView = (TextView) itemView.findViewById(R.id.list_item_crime_title_text_view);
+            dateTextView = (TextView) itemView.findViewById(R.id.list_item_crime_date_text_view);
+            solvedCheckBox = (CheckBox) itemView.findViewById(R.id.list_item_crime_solved_check_box);
+        }
+
+        public void bindCrime(Crime crime) {
+            this.crime = crime;
+
+            titleTextView.setText(crime.getTitle());
+            dateTextView.setText(crime.getDate().toString());
+            solvedCheckBox.setChecked(crime.isSolved());
         }
     }
 
@@ -63,7 +79,7 @@ public class CrimeListFragment extends Fragment {
         @Override
         public CrimeHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(getActivity());
-            View view = inflater.inflate(android.R.layout.simple_list_item_1, viewGroup, false);
+            View view = inflater.inflate(R.layout.list_item_crime, viewGroup, false);
 
             return new CrimeHolder(view);
         }
@@ -72,7 +88,7 @@ public class CrimeListFragment extends Fragment {
         public void onBindViewHolder(CrimeHolder crimeHolder, int position) {
             Crime crime = crimes.get(position);
 
-            crimeHolder.titleTextView.setText(crime.getTitle());
+            crimeHolder.bindCrime(crime);
         }
 
         @Override
