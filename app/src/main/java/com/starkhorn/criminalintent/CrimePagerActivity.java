@@ -33,8 +33,6 @@ public class CrimePagerActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crime_pager);
 
-        UUID crimeId = (UUID) getIntent().getSerializableExtra(EXTRA_CRIME_ID);
-
         viewPager = (ViewPager) findViewById(R.id.activity_crime_pager_view_pager);
         crimes = CrimeLab.get(this).getCrimes();
 
@@ -53,5 +51,9 @@ public class CrimePagerActivity extends FragmentActivity {
                 return crimes.size();
             }
         });
+
+        UUID crimeId = (UUID) getIntent().getSerializableExtra(EXTRA_CRIME_ID);
+        Crime crime = CrimeLab.get(this).getCrime(crimeId);
+        viewPager.setCurrentItem(crimes.indexOf(crime));
     }
 }
