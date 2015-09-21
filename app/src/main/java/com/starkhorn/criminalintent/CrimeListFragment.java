@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,9 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -73,6 +71,11 @@ public class CrimeListFragment extends Fragment {
 
                 return true;
 
+            case R.id.menu_item_show_subtitle:
+                updateSubtitle();
+
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -89,6 +92,15 @@ public class CrimeListFragment extends Fragment {
             adapter.notifyDataSetChanged();
         }
 
+    }
+
+    private void updateSubtitle() {
+        CrimeLab crimeLab = CrimeLab.get(getActivity());
+        int crimeCount = crimeLab.getCrimes().size();
+        String subtitle = getString(R.string.subtitle_format, crimeCount);
+
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.getSupportActionBar().setSubtitle(subtitle);
     }
 
     private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
