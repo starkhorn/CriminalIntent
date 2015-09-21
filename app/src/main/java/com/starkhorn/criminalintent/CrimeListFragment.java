@@ -23,6 +23,7 @@ import java.util.List;
  */
 public class CrimeListFragment extends Fragment {
 
+    private static final String SAVED_SUBTITLE_VISIBLE = "subtitleVisible";
     private RecyclerView crimeRecyclerView;
     private CrimeAdapter adapter;
     private boolean subtitleVisible;
@@ -34,6 +35,10 @@ public class CrimeListFragment extends Fragment {
 
         crimeRecyclerView = (RecyclerView) view.findViewById(R.id.crime_recycler_view);
         crimeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        if (savedInstanceState != null) {
+            subtitleVisible = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
+        }
 
         updateUI();
 
@@ -89,6 +94,13 @@ public class CrimeListFragment extends Fragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putBoolean(SAVED_SUBTITLE_VISIBLE, subtitleVisible);
     }
 
     private void updateUI() {
